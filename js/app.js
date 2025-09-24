@@ -28,7 +28,7 @@
   const MAX_TARGET_PCT = 100; // maximum travel (track end)
 
   // Audio element: play img/music.mp3 and loop segment [14s, 20s)
-  const LOOP_START = 14; // seconds
+  const LOOP_START = 15; // seconds
   const LOOP_END = 20;   // seconds
   let audioStarted = false;
   let audioEl = null;
