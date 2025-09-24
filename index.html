@@ -1,0 +1,53 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Barre de son avec boulet de canon</title>
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="description" content="Barre de volume responsive avec animation boulet de canon en appui long sur l'icône son.">
+
+  <meta property="og:title" content="Barre de son avec boulet de canon">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  <meta property="og:image:alt" content="">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.png">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#0f172a">
+</head>
+
+<body>
+
+  <main class="page">
+    <h1 class="visually-hidden">Barre de volume</h1>
+
+    <div class="volume" role="group" aria-label="Contrôle du volume">
+      <button class="volume__icon" id="volumeIcon" aria-label="Régler le volume par appui long" aria-describedby="volumeHelp">
+        <!-- Speaker icon (inline SVG) -->
+        <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M3 9v6h4l5 4V5L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.12-3.84l-1.03 1.72A2.5 2.5 0 0 1 15 12a2.5 2.5 0 0 1-1.65 2.12l1.03 1.72A4.5 4.5 0 0 0 16.5 12zm3 0c0-3.02-1.68-5.63-4.17-6.97l-1.03 1.73C16.3 7.88 17.5 9.78 17.5 12s-1.2 4.12-3.2 5.24l1.03 1.73A8.5 8.5 0 0 0 19.5 12z"/>
+        </svg>
+      </button>
+
+      <div class="volume__track" id="volumeTrack" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Volume" tabindex="0">
+        <div class="volume__fill" id="volumeFill" style="width:0%"></div>
+        <div class="volume__ball" id="cannonBall" aria-hidden="true"></div>
+      </div>
+
+      <output class="volume__percent" id="volumePercent" for="volumeTrack">0%</output>
+    </div>
+
+
+  </main>
+
+  <script src="js/app.js"></script>
+
+</body>
+
+</html>

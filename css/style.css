@@ -1,0 +1,382 @@
+/*! HTML5 Boilerplate v9.0.1 | MIT License | https://html5boilerplate.com/ */
+
+/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * Customize the background color to match your design.
+ */
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+  resize: vertical;
+}
+
+/* ==========================================================================
+  Author's custom styles
+  ========================================================================== */
+
+:root {
+  --bg: #0f172a;
+  --panel: #111827;
+  --track: #1f2937;
+  --fill: #22c55e;
+  --ball: #f59e0b;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --focus: #38bdf8;
+}
+
+body {
+  min-height: 100svh;
+  background: radial-gradient(1200px 600px at 20% 0%, #111633, #0b1024 60%, #070a18);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+  display: grid;
+  place-items: center;
+  gap: 16px;
+}
+
+.volume {
+  width: min(720px, 92vw);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(180deg, rgba(17,24,39,.9), rgba(3,7,18,.8));
+  border: 1px solid rgba(148,163,184,.2);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.volume__icon {
+  appearance: none;
+  border: none;
+  background: #0b1329;
+  color: var(--text);
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  display: inline-grid;
+  place-items: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 6px 14px rgba(2,6,23,.5);
+  cursor: pointer;
+  touch-action: none;
+}
+.volume__icon:active { transform: translateY(1px) scale(.99); }
+.volume__icon:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.volume__track {
+  position: relative;
+  height: 14px;
+  width: 100%;
+  background: var(--track);
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.6);
+  cursor: pointer;
+  touch-action: none;
+}
+.volume__track:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+
+.volume__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, #16a34a, #22c55e 40%, #86efac);
+}
+
+.volume__ball {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  left: 0%;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #fed7aa, #f59e0b 45%, #b45309 80%);
+  box-shadow: 0 6px 14px rgba(0,0,0,.55), 0 0 0 2px rgba(255,255,255,.05) inset;
+  pointer-events: none;
+  transform-origin: center;
+  scale: 0; /* hidden by default */
+}
+
+/* Cannonball trail effect */
+.volume__ball::after {
+  content: "";
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  translate: 0 -50%;
+  width: 140px;
+  height: 4px;
+  background: linear-gradient(90deg, rgba(245,158,11,.7), rgba(245,158,11,0));
+  filter: blur(1px);
+  opacity: 0;
+}
+
+/* Active long‑press state */
+.volume--charging .volume__ball {
+  scale: 1;
+  animation: throb .6s ease-in-out infinite;
+}
+.volume--charging .volume__ball::after { opacity: 1; }
+
+@keyframes throb {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.volume__percent { min-width: 3ch; text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.help { color: var(--muted); font-size: .9rem; text-align: center; max-width: 58ch; }
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .volume { gap: 12px; padding: 12px; }
+  .volume__icon { width: 42px; height: 42px; }
+  .volume__track { height: 12px; }
+  .volume__ball { width: 20px; height: 20px; }
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/*
+ * Hide visually and from screen readers
+ */
+
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ *
+ * 1. For long content, line feeds are not interpreted as spaces and small width
+ *    causes content to wrap 1 word per line:
+ *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+ */
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+  /* 1 */
+}
+
+/*
+ * Extends the .visually-hidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+
+.visually-hidden.focusable:active,
+.visually-hidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  white-space: inherit;
+  width: auto;
+}
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+
+.invisible {
+  visibility: hidden;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * The use of `table` rather than `block` is only necessary if using
+ * `::before` to contain the top-margins of child elements.
+ */
+
+.clearfix::before,
+.clearfix::after {
+  content: "";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+  /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 1.25dppx),
+  (min-resolution: 120dpi) {
+  /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   https://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    background: #fff !important;
+    color: #000 !important;
+    /* Black prints faster */
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  /*
+   * Don't show links that are fragment identifiers,
+   * or use the `javascript:` pseudo protocol
+   */
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
+
+
+:root{--bg:#0f172a;--panel:#111827;--track:#1f2937;--fill:#22c55e;--ball:#f59e0b;--text:#e5e7eb;--muted:#94a3b8;--focus:#38bdf8;}
+
+html{--bg:#0f172a;--panel:#111827;--track:#1f2937;--fill:#22c55e;--ball:#f59e0b;--text:#e5e7eb;--muted:#94a3b8;--focus:#38bdf8;}
