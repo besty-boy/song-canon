@@ -191,7 +191,7 @@ body {
   opacity: 0;
 }
 
-/* Active long‑press state */
+
 .volume--charging .volume__ball {
   scale: 1;
   animation: throb .6s ease-in-out infinite;
@@ -207,7 +207,7 @@ body {
 
 .help { color: var(--muted); font-size: .9rem; text-align: center; max-width: 58ch; }
 
-/* Mobile tweaks */
+
 @media (max-width: 520px) {
   .volume { gap: 12px; padding: 12px; }
   .volume__icon { width: 42px; height: 42px; }
@@ -215,13 +215,7 @@ body {
   .volume__ball { width: 20px; height: 20px; }
 }
 
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
 
-/*
- * Hide visually and from screen readers
- */
 
 .hidden,
 [hidden] {

@@ -14,22 +14,22 @@
   const volumeGroup = document.querySelector('.volume');
 
   // State
-  let volume = 0; // 0..1 (default 0%)
+  let volume = 0;
   let isDragging = false;
-  let charging = false; // charging by long-press on icon
-  let launching = false; // ball is flying
+  let charging = false;
+  let launching = false;
   let chargeStart = 0;
   let chargeRaf = 0;
   let launchRaf = 0;
 
-  // Tunables
-  const MAX_CHARGE_MS = 2000; // time to reach full distance
-  const MIN_TARGET_PCT = 0;   // minimum travel
-  const MAX_TARGET_PCT = 100; // maximum travel (track end)
 
-  // Audio element: play img/music.mp3 and loop segment [14s, 20s)
-  const LOOP_START = 15; // seconds
-  const LOOP_END = 20;   // seconds
+  const MAX_CHARGE_MS = 2000;
+  const MIN_TARGET_PCT = 0;
+  const MAX_TARGET_PCT = 100;
+
+
+  const LOOP_START = 15;
+  const LOOP_END = 45;
   let audioStarted = false;
   let audioEl = null;
   function startAudio() {
@@ -43,10 +43,10 @@
     try {
       audioEl = new Audio('img/music.mp3');
       audioEl.preload = 'auto';
-      audioEl.loop = false; // we loop a segment manually
-      audioEl.volume = volume; // sync to current volume
+      audioEl.loop = false;
+      audioEl.volume = volume;
 
-      // Seek to loop start once metadata is ready
+
       const seekToLoopStart = () => {
         try {
           const dur = isFinite(audioEl.duration) ? audioEl.duration : Infinity;
@@ -62,19 +62,19 @@
         audioEl.addEventListener('loadedmetadata', seekToLoopStart, { once: true });
       }
 
-      // Implement time range loop
+
       audioEl.addEventListener('timeupdate', () => {
         if (audioEl.currentTime >= LOOP_END) {
           audioEl.currentTime = LOOP_START;
-          // Ensure playback continues after seeking
+
           if (audioEl.paused) audioEl.play().catch(() => {});
         }
       });
 
-      // Start playback on first interaction
+
       audioEl.play().catch(() => {
-        // Some browsers may block; will be retried on next gesture
-        audioStarted = true; // keep the element; subsequent interactions can call play()
+
+        audioStarted = true;
       });
     } catch (e) {
       console.warn('Audio init failed:', e);
@@ -124,9 +124,9 @@
     return { startX, width };
   }
 
-  // Pointer interactions on the track (click/drag to set)
+
   function onPointerDownTrack(ev) {
-    if (launching) return; // don't interfere while flying
+    if (launching) return;
     startAudio();
     ev.preventDefault();
     isDragging = true;
@@ -155,26 +155,26 @@
     chargeStart = performance.now();
     volumeGroup.classList.add('volume--charging');
 
-    // Place the ball at the icon position (relative to the track)
+
     const { startX } = getGeometry();
-    ball.style.left = startX + 'px'; // allow negative px
+    ball.style.left = startX + 'px';
     ball.style.scale = '1';
 
   }
 
   function animateLaunchTo(targetPct, onDone) {
     const { startX, width } = getGeometry();
-    const startPx = startX; // current ball position
+    const startPx = startX;
     const endPx = (Math.max(0, Math.min(100, targetPct)) / 100) * width;
     const distance = Math.abs(endPx - startPx);
-    const base = 350; // ms
-    const perPx = 0.6; // ms per px
+    const base = 350;
+    const perPx = 0.6;
     const duration = Math.max(280, Math.min(900, base + distance * perPx));
 
     const t0 = performance.now();
     cancelAnimationFrame(launchRaf);
 
-    // simple easeOutCubic
+
     const ease = (t) => 1 - Math.pow(1 - t, 3);
 
     const step = () => {
@@ -199,14 +199,14 @@
     volumeGroup.classList.remove('volume--charging');
 
     if (!apply) {
-      // Cancel: hide ball and sync to current volume
+
       ball.style.scale = '0';
       ball.style.transform = 'scale(1)';
       ball.style.left = (volume * 100) + '%';
       return;
     }
 
-    // Compute power based on hold time
+
     const hold = performance.now() - chargeStart;
     const power = Math.min(1, hold / MAX_CHARGE_MS);
     const targetPct = MIN_TARGET_PCT + power * (MAX_TARGET_PCT - MIN_TARGET_PCT);
@@ -214,7 +214,7 @@
     launching = true;
     animateLaunchTo(targetPct, () => {
       launching = false;
-      // Set volume at the final target and hide the ball
+
       setVolumeFromPct(targetPct);
       ball.style.scale = '0';
       ball.style.transform = 'scale(1)';
@@ -257,7 +257,7 @@
     }
   });
 
-  // Keyboard on the icon: Space/Enter to charge then release
+
   iconBtn.addEventListener('keydown', (e) => {
     if (e.key === ' ' || e.key === 'Spacebar' || e.key === 'Enter') {
       e.preventDefault();
@@ -266,6 +266,6 @@
   });
 
 
-  // Initial render
+
   updateUI();
 })();
